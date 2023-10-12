@@ -1,6 +1,6 @@
 # ReArmature
 
-A [ResoniteModLoaderModLoader](https://github.com/resonite-modding-group/ResoniteModLoader) mod for [Resonite](https://resonite.com) that adds functionality to SkinnedMeshRenderers. You can now add new clothes to your avatar even if they have new bones.
+A [ResoniteModLoader](https://github.com/resonite-modding-group/ResoniteModLoader) mod for [Resonite](https://resonite.com) that adds functionality to SkinnedMeshRenderers. You can now add new clothes to your avatar even if they have new bones.
 
 
 ## Installation
