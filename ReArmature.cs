@@ -1,20 +1,16 @@
-﻿using NeosModLoader;
+﻿using ResoniteModLoader;
 using HarmonyLib;
 using FrooxEngine;
 using FrooxEngine.UIX;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using SkinnedMeshRenderer = FrooxEngine.SkinnedMeshRenderer;
-using BaseX;
-using FrooxEngine.CommonAvatar;
-using FrooxEngine.LogiX.WorldModel;
 using System.Reflection;
+using Elements.Core;
 
 namespace ReArmature
 {
-    public class ReArmature : NeosMod
+    public class ReArmature : ResoniteMod
     {
         public override string Name => "ReArmature";
 
@@ -52,7 +48,7 @@ namespace ReArmature
         {
             MethodInfo GetBoneCandidates = skmr.GetType().GetMethod("GetBoneCandidates", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            MeshX val = skmr.Mesh.Asset?.Data;
+            Elements.Core.MeshX val = skmr.Mesh.Asset?.Data;
             if (val == null)
             {
                 throw new Exception("Cannot setup bones without a loaded asset");
