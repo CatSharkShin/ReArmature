@@ -1,12 +1,12 @@
 # ReArmature
 
-A [NeosModLoader](https://github.com/zkxs/NeosModLoader) mod for [Neos VR](https://neos.com/) that adds functionality to SkinnedMeshRenderers. You can now add new clothes to your avatar even if they have new bones.
+A [ResoniteModLoaderModLoader](https://github.com/resonite-modding-group/ResoniteModLoader) mod for [Resonite](https://resonite.com) that adds functionality to SkinnedMeshRenderers. You can now add new clothes to your avatar even if they have new bones.
 
 
 ## Installation
-1. Install [NeosModLoader](https://github.com/zkxs/NeosModLoader).
-2. Place [ReArmature.dll]() into your `nml_mods` folder. This folder should be at `C:\Program Files (x86)\Steam\steamapps\common\NeosVR\nml_mods` for a default install. You can create it if it's missing, or if you launch the game once with NeosModLoader installed it will create the folder for you.
-3. Start the game. If you want to verify that the mod is working you can check your Neos logs.
+1. Install [ResoniteModLoaderModLoader](https://github.com/resonite-modding-group/ResoniteModLoader).
+2. Place [ReArmature.dll]() into your `rml_mods` folder. This folder should be at `C:\Program Files (x86)\Steam\steamapps\common\Resonite\rml_mods` for a default install. You can create it if it's missing, or if you launch the game once with NeosModLoader installed it will create the folder for you.
+3. Start the game. If you want to verify that the mod is working you can check your Resonite logs.
 
 
 ## Usage
@@ -27,4 +27,4 @@ https://user-images.githubusercontent.com/53709818/187294169-71fbf4b6-b7ca-40f3-
 - New bones are not a problem, they will be duplicated and attached to your avatar
 - If you have renamed bones, the above solution will solve that problem, however your already existing bones obviously wont be used.
   - So if you renamed your tail bone that had dynamicbones, there will be a new bonegroup with the new tail bone name, and it wont have Dynamic Bones
-- CatShark#2783 for support and feedback
+- catsharku on Discord for support and feedback
