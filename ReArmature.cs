@@ -6,8 +6,8 @@ using System;
 using System.Collections.Generic;
 using SkinnedMeshRenderer = FrooxEngine.SkinnedMeshRenderer;
 using System.Reflection;
+using Elements.Assets;
 using Elements.Core;
-
 namespace ReArmature
 {
     public class ReArmature : ResoniteMod
@@ -16,7 +16,7 @@ namespace ReArmature
 
         public override string Author => "CatShark";
 
-        public override string Version => "2.0";
+        public override string Version => "2.1";
         public override void OnEngineInit()
         {
             Harmony harmony = new Harmony("net.catshark.rearmature");
@@ -48,7 +48,7 @@ namespace ReArmature
         {
             MethodInfo GetBoneCandidates = skmr.GetType().GetMethod("GetBoneCandidates", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            Elements.Core.MeshX val = skmr.Mesh.Asset?.Data;
+            MeshX val = skmr.Mesh.Asset?.Data;
             if (val == null)
             {
                 throw new Exception("Cannot setup bones without a loaded asset");

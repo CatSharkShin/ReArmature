@@ -35,12 +35,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\User\source\repos\ReArmature\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Elements.Core">
-      <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Resonite\Resonite_Data\Managed\Elements.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="FrooxEngine, Version=2022.1.28.1335, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Elements.Assets, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Resonite\Resonite_Data\Managed\FrooxEngine.dll</HintPath>
+      <HintPath>F:\SteamLibrary\steamapps\steamapps\common\Resonite\Resonite_Data\Managed\Elements.Assets.dll</HintPath>
+    </Reference>
+    <Reference Include="Elements.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>F:\SteamLibrary\steamapps\steamapps\common\Resonite\Resonite_Data\Managed\Elements.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FrooxEngine, Version=2023.10.13.202, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>F:\SteamLibrary\steamapps\steamapps\common\Resonite\Resonite_Data\Managed\FrooxEngine.dll</HintPath>
     </Reference>
     <Reference Include="FrooxEngine.Commands">
       <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Resonite\Resonite_Data\Managed\FrooxEngine.Commands.dll</HintPath>
