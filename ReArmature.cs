@@ -16,7 +16,7 @@ namespace ReArmature
 
         public override string Author => "CatShark";
 
-        public override string Version => "2.1.0";
+        public override string Version => "2.1.1";
         public override void OnEngineInit()
         {
             Harmony harmony = new Harmony("net.catshark.rearmature");
