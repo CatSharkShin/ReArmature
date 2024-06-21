@@ -18,6 +18,9 @@ namespace ReArmature
         public override string Author => "CatShark";
 
         public override string Version => "2.1.2";
+
+        public override string Link => "https://github.com/CatSharkShin/ReArmature/";
+        
         public override void OnEngineInit()
         {
             Harmony harmony = new Harmony("net.catshark.rearmature");
