@@ -28,19 +28,56 @@ namespace ReArmature
         }
 
         [HarmonyPatch(typeof(SkinnedMeshRenderer))]
-        class ReplaceOldMesh
+                class ReplaceOldMesh
         {
             [HarmonyPostfix]
-            [HarmonyPatch(nameof(SkinnedMeshRenderer.BuildInspectorUI))]
-            public static void Postfix(UIBuilder ui, SkinnedMeshRenderer __instance)
+            [HarmonyPatch(typeof(SkinnedMeshRenderer), nameof(SkinnedMeshRenderer.BuildInspectorUI))]
+            public static void Postfix(SkinnedMeshRenderer __instance, UIBuilder ui)
             {
-                var btn = ui.Button("Re-Setup bones");
-                btn.LocalPressed += (button, data) => {
-                    __instance.Slot.StartCoroutine(Process(button,data,__instance));
-                };
+                ui.Style.MinHeight = 24 + 36;
+
+                ui.NestInto(ui.Empty("Re_Armature_Helper"));
+                {
+                    ui.HorizontalHeader(36, out RectTransform header, out RectTransform content);
+
+                    ui.Style.MinHeight = 24;
+
+                    ui.NestInto(header);
+                    ui.Text("Re-Armature", alignment: Alignment.MiddleCenter);
+                    ui.NestOut();
+
+                    ui.NestInto(content);
+                    {
+                        Slot slotRefHolder = ui.Empty("Slot Reader");
+                        ui.NestInto(slotRefHolder);
+                        {
+                            ui.HorizontalLayout(4f);
+                            {
+                                ReferenceField<Slot> slotField = slotRefHolder.AttachComponent<ReferenceField<Slot>>();
+
+                                const int index = 3;
+                                SyncMemberEditorBuilder.Build(
+                                    slotField.GetSyncMember(index),
+                                    "Armature",
+                                    slotField.GetSyncMemberFieldInfo(index),
+                                    ui);
+
+                                var btn = ui.Button("Re-Setup bones");
+                                btn.LocalPressed += (button, data) =>
+                                {
+                                    __instance.Slot.StartCoroutine(Process(button, data, __instance, slotField.Reference.Target));
+                                };
+                            }
+                            ui.NestOut();
+                        }
+                        ui.NestOut();
+                    }
+                    ui.NestOut();
+                }
+                ui.NestOut();
             }
 
-            private static IEnumerator<Context> Process(IButton button,ButtonEventData data,SkinnedMeshRenderer skmr)
+            private static IEnumerator<Context> Process(IButton button,ButtonEventData data,SkinnedMeshRenderer skmr, Slot RefArmature)
             {
                 if (skmr.Mesh.Asset?.Data == null)
                 {
@@ -62,8 +99,17 @@ namespace ReArmature
                     }
                 }
 
-                Slot armature = skmr.Slot.GetObjectRoot().FindChild(s => s.Name == "Armature");
-                button.LabelText = SetupBones(skmr, armature);
+                if (RefArmature == null)
+                {
+                    Slot armature = skmr.Slot.GetObjectRoot().FindChild(s => s.Name == "Armature");
+                    button.LabelText = SetupBones(skmr, armature);
+                }
+                else
+                {
+                    Slot armature = RefArmature;
+                    button.LabelText = SetupBones(skmr, armature);
+                }
+               
 
                 yield return Context.WaitForSeconds(5);
                 button.LabelText = "Re-Setup bones";
