@@ -17,7 +17,7 @@ namespace ReArmature
 
         public override string Author => "CatShark";
 
-        public override string Version => "2.1.2";
+        public override string Version => "2.1.3";
 
         public override string Link => "https://github.com/CatSharkShin/ReArmature/";
         
@@ -28,7 +28,7 @@ namespace ReArmature
         }
 
         [HarmonyPatch(typeof(SkinnedMeshRenderer))]
-                class ReplaceOldMesh
+        class ReplaceOldMesh
         {
             [HarmonyPostfix]
             [HarmonyPatch(typeof(SkinnedMeshRenderer), nameof(SkinnedMeshRenderer.BuildInspectorUI))]
