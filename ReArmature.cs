@@ -2,13 +2,11 @@
 using HarmonyLib;
 using FrooxEngine;
 using FrooxEngine.UIX;
-using System;
-using System.Collections.Generic;
 using SkinnedMeshRenderer = FrooxEngine.SkinnedMeshRenderer;
 using System.Reflection;
 using Elements.Assets;
 using Elements.Core;
-using System.Collections;
+
 namespace ReArmature
 {
     public class ReArmature : ResoniteMod
@@ -17,7 +15,7 @@ namespace ReArmature
 
         public override string Author => "CatShark";
 
-        public override string Version => "2.1.3";
+        public override string Version => "2.1.4";
 
         public override string Link => "https://github.com/CatSharkShin/ReArmature/";
         
@@ -174,7 +172,7 @@ namespace ReArmature
         {
             if(newArmatureDictionary.TryGetValue(boneToAttach.Parent.Name, out var value))
             {
-                boneToAttach.Duplicate(value,false);
+                boneToAttach.Duplicate(value,false,null,false);
             }
             else
             {
