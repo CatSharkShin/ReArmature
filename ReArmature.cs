@@ -11,11 +11,12 @@ namespace ReArmature
 {
     public class ReArmature : ResoniteMod
     {
-        public override string Name => "ReArmature";
+		internal const string VERSION_CONSTANT = "2.1.5";
+		public override string Name => "ReArmature";
 
         public override string Author => "CatShark";
 
-        public override string Version => "2.1.4";
+        public override string Version => VERSION_CONSTANT;
 
         public override string Link => "https://github.com/CatSharkShin/ReArmature/";
         
