@@ -1,29 +1,23 @@
-﻿using ResoniteModLoader;
-using HarmonyLib;
-using FrooxEngine;
-using FrooxEngine.UIX;
-using SkinnedMeshRenderer = FrooxEngine.SkinnedMeshRenderer;
-using System.Reflection;
+﻿using BepInEx;
+using BepInEx.NET.Common;
+using BepInExResoniteShim;
 using Elements.Assets;
 using Elements.Core;
+using FrooxEngine;
+using FrooxEngine.UIX;
+using HarmonyLib;
+using System.Reflection;
+using SkinnedMeshRenderer = FrooxEngine.SkinnedMeshRenderer;
 
 namespace ReArmature
 {
-    public class ReArmature : ResoniteMod
+    [ResonitePlugin(PluginMetadata.GUID, PluginMetadata.NAME, PluginMetadata.VERSION, PluginMetadata.AUTHORS, PluginMetadata.REPOSITORY_URL)]
+    [BepInDependency(BepInExResoniteShim.PluginMetadata.GUID, BepInDependency.DependencyFlags.HardDependency)]
+    public class ReArmature : BasePlugin
     {
-		internal const string VERSION_CONSTANT = "2.1.5";
-		public override string Name => "ReArmature";
-
-        public override string Author => "CatShark";
-
-        public override string Version => VERSION_CONSTANT;
-
-        public override string Link => "https://github.com/CatSharkShin/ReArmature/";
-        
-        public override void OnEngineInit()
+        public override void Load()
         {
-            Harmony harmony = new Harmony("net.catshark.rearmature");
-            harmony.PatchAll();
+            HarmonyInstance.PatchAll();
         }
 
         [HarmonyPatch(typeof(SkinnedMeshRenderer))]
