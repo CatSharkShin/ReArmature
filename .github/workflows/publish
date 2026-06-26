@@ -3,7 +3,7 @@ name: Build and Publish BepInEx to Thunderstore
 on:
   push:
     tags:
-      - 'bepinex-v*.*.*' # Triggers only for BepInEx tags
+      - 'bepinex-v*.*.*'
 
 jobs:
   build-and-publish:
@@ -29,11 +29,11 @@ jobs:
         uses: GreenTF/upload-thunderstore-package@v4.3
         with:
           token: ${{ secrets.THUNDERSTORE_TOKEN }}
-          community: lethal-company                  
-          namespace: CatSharkShin                    
-          name: ReArmature_BepInEx # Keeps them distinct if needed, or keep same
+          community: resonite
+          namespace: catshark
+          name: rearmature
           
-          # Strips 'bepinex-v' (9 characters) to leave just the raw version (e.g., 2.1.6)
+          # Strips 'bepinex-v' to leave x.y.z
           version: ${{ substring(github.ref_name, 9) }}
           
           description: "BepInEx build of ReArmature tool."
