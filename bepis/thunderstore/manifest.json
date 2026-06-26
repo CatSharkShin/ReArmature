@@ -1,0 +1,9 @@
+{
+  "name": "rearmature",
+  "version_number": "2.1.5",
+  "website_url": "https://github.com/CatSharkShin/ReArmature",
+  "description": "reassign skinnedmeshrenderers to new armatures easily",
+  "dependencies": [
+    "BepInEx-BepInExPack-5.4.2100"
+  ]
+}
