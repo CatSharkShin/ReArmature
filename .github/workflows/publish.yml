@@ -1,4 +1,4 @@
-name: Build and Publish BepInEx to Thunderstore
+name: build and publish bepinex to thunderstore
 
 on:
   push:
@@ -9,32 +9,32 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Source
+      - name: checkout source
         uses: actions/checkout@v4
 
-      - name: Setup .NET
+      - name: setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0'
 
-      - name: Build Mod DLL
+      - name: build mod dll
         run: dotnet build -c Release
 
-      - name: Stage Artifacts
-        run: |
-          mkdir -p thunderstore/BepInEx/plugins/
-          cp bin/Release/**/ReArmature.dll thunderstore/BepInEx/plugins/
+      - name: Stage Artifacts & Extract Version
+              run: |
+                mkdir -p thunderstore/BepInEx/plugins/
+                cp bin/Release/**/ReArmature.dll thunderstore/BepInEx/plugins/
+                RAW_VER="${{ github.ref_name }}"
+                CLEAN_VER="${RAW_VER#bepinex-v}"
+                echo "MOD_VERSION=$CLEAN_VER" >> $GITHUB_ENV
 
-      - name: Upload to Thunderstore
+      - name: upload to thunderstore
         uses: GreenTF/upload-thunderstore-package@v4.3
         with:
           token: ${{ secrets.THUNDERSTORE_TOKEN }}
           community: resonite
           namespace: catshark
           name: rearmature
-          
-          # Strips 'bepinex-v' to leave x.y.z
-          version: ${{ substring(github.ref_name, 9) }}
-          
-          description: "BepInEx build of ReArmature tool."
+          version: ${{ env.MOD_VERSION }}
+          description: "reassign a skinnedmeshrenderer to a new armature"
           path: 'thunderstore'
