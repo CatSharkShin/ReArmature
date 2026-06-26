@@ -1,0 +1,40 @@
+name: Build and Publish BepInEx to Thunderstore
+
+on:
+  push:
+    tags:
+      - 'bepinex-v*.*.*' # Triggers only for BepInEx tags
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0'
+
+      - name: Build Mod DLL
+        run: dotnet build -c Release
+
+      - name: Stage Artifacts
+        run: |
+          mkdir -p thunderstore/BepInEx/plugins/
+          cp bin/Release/**/ReArmature.dll thunderstore/BepInEx/plugins/
+
+      - name: Upload to Thunderstore
+        uses: GreenTF/upload-thunderstore-package@v4.3
+        with:
+          token: ${{ secrets.THUNDERSTORE_TOKEN }}
+          community: lethal-company                  
+          namespace: CatSharkShin                    
+          name: ReArmature_BepInEx # Keeps them distinct if needed, or keep same
+          
+          # Strips 'bepinex-v' (9 characters) to leave just the raw version (e.g., 2.1.6)
+          version: ${{ substring(github.ref_name, 9) }}
+          
+          description: "BepInEx build of ReArmature tool."
+          path: 'thunderstore'
