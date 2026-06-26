@@ -69,19 +69,30 @@ jobs:
 
   publish-rml-release-and-manifest:
     runs-on: ubuntu-latest
-    if: ${{ secrets.RML_MANIFEST_PAT != '' }}
     env:
+      RML_MANIFEST_PAT: ${{ secrets.RML_MANIFEST_PAT }}
       RML_MANIFEST_REPO: ${{ vars.RML_MANIFEST_REPO }}
       RML_MANIFEST_REF: ${{ vars.RML_MANIFEST_REF != '' && vars.RML_MANIFEST_REF || 'upstream' }}
       RML_INFO_JSON_PATH: ${{ vars.RML_INFO_JSON_PATH != '' && vars.RML_INFO_JSON_PATH || 'manifest/CatShark/ReArmature/info.json' }}
     steps:
+      - name: check manifest secret
+        id: manifest_secret
+        run: |
+          if [ -n "$RML_MANIFEST_PAT" ]; then
+            echo "present=true" >> $GITHUB_OUTPUT
+          else
+            echo "present=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: checkout source
         uses: actions/checkout@v4
+        if: ${{ steps.manifest_secret.outputs.present == 'true' }}
 
       - name: setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0'
+        if: ${{ steps.manifest_secret.outputs.present == 'true' }}
 
       - name: resolve release metadata
         run: |
@@ -104,15 +115,18 @@ jobs:
 
           echo "MOD_VERSION=$CLEAN_VER" >> $GITHUB_ENV
           echo "RELEASE_TAG=$RELEASE_TAG" >> $GITHUB_ENV
+        if: ${{ steps.manifest_secret.outputs.present == 'true' }}
 
       - name: build rml dll
         run: dotnet build rml/ReArmature.csproj -c Release
+        if: ${{ steps.manifest_secret.outputs.present == 'true' }}
 
       - name: publish rml dll as release asset
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.RELEASE_TAG }}
           files: rml/bin/Release/net10.0/ReArmature.dll
+        if: ${{ steps.manifest_secret.outputs.present == 'true' }}
 
       - name: compute artifact hash and urls
         run: |
@@ -121,6 +135,7 @@ jobs:
           echo "RML_SHA256=$HASH" >> $GITHUB_ENV
           echo "RML_RELEASE_URL=https://github.com/${{ github.repository }}/releases/tag/${RELEASE_TAG}" >> $GITHUB_ENV
           echo "RML_ASSET_URL=https://github.com/${{ github.repository }}/releases/download/${RELEASE_TAG}/ReArmature.dll" >> $GITHUB_ENV
+        if: ${{ steps.manifest_secret.outputs.present == 'true' }}
 
       - name: validate manifest configuration
         run: |
@@ -129,6 +144,7 @@ jobs:
             echo "Set repository variable RML_MANIFEST_REPO to something like owner/repo."
             exit 1
           fi
+        if: ${{ steps.manifest_secret.outputs.present == 'true' }}
 
       - name: checkout rml manifest repo
         uses: actions/checkout@v4
@@ -138,6 +154,7 @@ jobs:
           token: ${{ secrets.RML_MANIFEST_PAT }}
           path: manifest-repo
           persist-credentials: true
+        if: ${{ steps.manifest_secret.outputs.present == 'true' }}
 
       - name: update info.json
         run: |
@@ -175,6 +192,7 @@ jobs:
               json.dump(data, f, indent='\t')
               f.write('\n')
           PY
+        if: ${{ steps.manifest_secret.outputs.present == 'true' }}
 
       - name: commit and push manifest update
         working-directory: manifest-repo
@@ -184,3 +202,4 @@ jobs:
           git add "$RML_INFO_JSON_PATH"
           git commit -m "Update ReArmature to ${MOD_VERSION}" || echo "Nothing to commit"
           git push origin HEAD:${RML_MANIFEST_REF}
+        if: ${{ steps.manifest_secret.outputs.present == 'true' }}
