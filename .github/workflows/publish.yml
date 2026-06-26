@@ -32,8 +32,11 @@ jobs:
         uses: GreenTF/upload-thunderstore-package@v4.3
         with:
           token: ${{ secrets.THUNDERSTORE_TOKEN }}
+          repo: 'https://thunderstore.io'
           community: resonite
           namespace: catshark
+          categories: |
+            tools
           name: rearmature
           version: ${{ env.MOD_VERSION }}
           description: "reassign a skinnedmeshrenderer to a new armature"
