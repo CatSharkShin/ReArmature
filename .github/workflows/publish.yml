@@ -22,8 +22,8 @@ jobs:
 
       - name: Stage Artifacts & Extract Version
         run: |
-          mkdir -p thunderstore/BepInEx/plugins/
-          cp bin/Release/**/ReArmature.dll thunderstore/BepInEx/plugins/
+          mkdir -p dist/BepInEx/plugins/
+          cp ReArmature/bin/Release/**/ReArmature.dll dist/BepInEx/plugins/
           RAW_VER="${{ github.ref_name }}"
           CLEAN_VER="${RAW_VER#bepinex-v}"
           echo "MOD_VERSION=$CLEAN_VER" >> $GITHUB_ENV
@@ -37,4 +37,4 @@ jobs:
           name: rearmature
           version: ${{ env.MOD_VERSION }}
           description: "reassign a skinnedmeshrenderer to a new armature"
-          path: 'thunderstore'
+          path: 'dist'
