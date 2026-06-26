@@ -23,7 +23,7 @@ jobs:
       - name: Stage Artifacts & Extract Version
         run: |
           mkdir -p dist/BepInEx/plugins/
-          cp ReArmature/bin/Release/**/ReArmature.dll dist/BepInEx/plugins/
+          find ReArmature/bin/Release/ -name "ReArmature.dll" -exec cp {} dist/BepInEx/plugins/ \;
           RAW_VER="${{ github.ref_name }}"
           CLEAN_VER="${RAW_VER#bepinex-v}"
           echo "MOD_VERSION=$CLEAN_VER" >> $GITHUB_ENV
