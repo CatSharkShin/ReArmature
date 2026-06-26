@@ -21,12 +21,12 @@ jobs:
         run: dotnet build -c Release
 
       - name: Stage Artifacts & Extract Version
-              run: |
-                mkdir -p thunderstore/BepInEx/plugins/
-                cp bin/Release/**/ReArmature.dll thunderstore/BepInEx/plugins/
-                RAW_VER="${{ github.ref_name }}"
-                CLEAN_VER="${RAW_VER#bepinex-v}"
-                echo "MOD_VERSION=$CLEAN_VER" >> $GITHUB_ENV
+        run: |
+          mkdir -p thunderstore/BepInEx/plugins/
+          cp bin/Release/**/ReArmature.dll thunderstore/BepInEx/plugins/
+          RAW_VER="${{ github.ref_name }}"
+          CLEAN_VER="${RAW_VER#bepinex-v}"
+          echo "MOD_VERSION=$CLEAN_VER" >> $GITHUB_ENV
 
       - name: upload to thunderstore
         uses: GreenTF/upload-thunderstore-package@v4.3
