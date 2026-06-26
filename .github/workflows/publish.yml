@@ -18,7 +18,7 @@ jobs:
           dotnet-version: '10.0'
 
       - name: build mod dll
-        run: dotnet build -c Release
+        run: dotnet build ReArmature/ReArmature.csproj -c Release
 
       - name: Stage Artifacts & Extract Version
         run: |
