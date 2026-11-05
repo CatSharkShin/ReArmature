@@ -3,7 +3,9 @@ using Elements.Core;
 using FrooxEngine;
 using FrooxEngine.UIX;
 using HarmonyLib;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using SkinnedMeshRenderer = FrooxEngine.SkinnedMeshRenderer;
 
 namespace ReArmature;
@@ -123,7 +125,7 @@ public static class ReArmatureShared
         for (int i = 0; i < mesh.BoneCount; i++)
         {
             string name = mesh.GetBone(i).Name;
-            candidateDictionary.TryGetValue(name, out var value);
+            TryFindBone(candidateDictionary, name, out var value);
             skmr.Bones.Add().Target = value;
         }
 
@@ -142,7 +144,7 @@ public static class ReArmatureShared
     {
         for (int i = 0; i < skmr.Bones.Count; i++)
         {
-            if (!bones.ContainsKey(skmr.Bones[i].Name))
+            if (!TryFindBone(bones, skmr.Bones[i].Name, out _))
             {
                 AttachBoneGroup(skmr.Bones[i], bones);
                 return true;
@@ -159,7 +161,7 @@ public static class ReArmatureShared
     /// <param name="newArmatureDictionary"></param>
     private static void AttachBoneGroup(Slot boneToAttach, Dictionary<string, Slot> newArmatureDictionary)
     {
-        if (newArmatureDictionary.TryGetValue(boneToAttach.Parent.Name, out var value))
+        if (TryFindBone(newArmatureDictionary, boneToAttach.Parent.Name, out var value))
         {
             boneToAttach.Duplicate(value, false);
         }
@@ -167,5 +169,47 @@ public static class ReArmatureShared
         {
             AttachBoneGroup(boneToAttach.Parent, newArmatureDictionary);
         }
+    }
+
+    /// <summary>
+    /// Looks up a bone by its exact name.
+    /// Falls back to a match that ignores any NoIK tags.
+    /// </summary>
+    private static bool TryFindBone(Dictionary<string, Slot> bones, string name, [NotNullWhen(true)] out Slot? bone)
+    {
+        if (bones.TryGetValue(name, out bone))
+        {
+            return true;
+        }
+
+        string stripped = StripNoIk(name);
+        foreach (var pair in bones)
+        {
+            if (StripNoIk(pair.Key) == stripped)
+            {
+                bone = pair.Value;
+                return true;
+            }
+        }
+
+        bone = null;
+        return false;
+    }
+
+    private static readonly Regex NoIkTag = new Regex("<noik>", RegexOptions.IgnoreCase);
+    private static readonly Regex Whitespace = new Regex(@"\s+");
+
+    /// <summary>
+    /// Removes &lt;NoIK&gt; tags (case insensitive) from anywhere in a bone name
+    /// Example: "Hips &lt;NoIK&gt;" becomes "Hips".
+    /// </summary>
+    private static string StripNoIk(string name)
+    {
+        if (name.IndexOf("<noik>", StringComparison.OrdinalIgnoreCase) < 0)
+        {
+            return name;
+        }
+
+        return Whitespace.Replace(NoIkTag.Replace(name, ""), " ").Trim();
     }
 }
