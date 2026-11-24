@@ -55,23 +55,15 @@ jobs:
         run: |
           mkdir -p dist/BepInEx/plugins/
           cp bepis/bin/Release/ReArmature.dll dist/BepInEx/plugins/
-
-      - name: check
+      - name:
+        env:
+          TCLI_TOKEN: ${{ secrets.THUNDERSTORE_TOKEN }}
         run: |
-          pwd
-          ls -la
-          la -la thunderstore.toml
+          dotnet tool install -g TCLI
+          export PATH="$PATH:$HOME/.dotnet/tools"
+          tcli build --package-verison "${{env.MOD_VERSION}}"
+          tcli publish
 
-      - name: upload to thunderstore
-        uses: GreenTF/upload-thunderstore-package@v4.3
-        with:
-          token: ${{ secrets.THUNDERSTORE_TOKEN }}
-          community: resonite
-          namespace: catshark
-          name: rearmature
-          version: ${{ env.MOD_VERSION }}
-          description: "reassign a skinnedmeshrenderer to a new armature"
-          path: 'dist'
 
   publish-rml-release-and-manifest:
     runs-on: ubuntu-latest

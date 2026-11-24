@@ -7,6 +7,9 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<!-- Change CopyToMods to true if you'd like builds to be moved into the Mods folder automatically-->
 		<CopyToMods Condition="'$(CopyToMods)'==''">true</CopyToMods>
+		<RestoreAdditionalProjectSources>
+			https://nuget-modding.resonite.net/v3/index.json;
+		</RestoreAdditionalProjectSources>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(ResonitePath)'==''">
