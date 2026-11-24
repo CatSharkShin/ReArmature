@@ -55,15 +55,15 @@ jobs:
         run: |
           mkdir -p dist/BepInEx/plugins/
           cp bepis/bin/Release/ReArmature.dll dist/BepInEx/plugins/
+
       - name:
         env:
           TCLI_TOKEN: ${{ secrets.THUNDERSTORE_TOKEN }}
         run: |
           dotnet tool install -g TCLI
           export PATH="$PATH:$HOME/.dotnet/tools"
-          tcli build --package-verison "${{env.MOD_VERSION}}"
+          tcli build --package-version "${{env.MOD_VERSION}}"
           tcli publish
-
 
   publish-rml-release-and-manifest:
     runs-on: ubuntu-latest
