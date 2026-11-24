@@ -81,9 +81,6 @@ jobs:
             exit 1
           fi
 
-      - name: checkout source
-        uses: actions/checkout@v4
-
       - name: setup .NET
         uses: actions/setup-dotnet@v4
         with:
