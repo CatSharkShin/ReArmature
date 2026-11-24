@@ -24,12 +24,14 @@
 	<Target Name="ClearReferenceCopyLocalPaths" AfterTargets="ResolveAssemblyReferences">
 		<ItemGroup>
 			<ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" />
-			<PackageReference Include="ResoniteModLoader" Version="5.0.1" />
 		</ItemGroup>
 	</Target>
 
 	<ItemGroup>
 		<Compile Include="..\shared\ReArmature.Shared.cs" Link="ReArmature.Shared.cs" />
+	</ItemGroup>
+
+	<ItemGroup Condition="Exists('$(ResonitePath)FrooxEngine.dll')">
 		<Reference Include="ResoniteModLoader">
 			<HintPath>$(ResonitePath)Libraries\ResoniteModLoader.dll</HintPath>
 		</Reference>
@@ -45,6 +47,11 @@
 		<Reference Include="Elements.Assets">
 			<HintPath>$(ResonitePath)Elements.Assets.dll</HintPath>
 		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition="!Exists('$(ResonitePath)FrooxEngine.dll')">
+    	<PackageReference Include="Resonite.GameLibs" Version="2025.*" PrivateAssets="all"/>
+		<PackageReference Include="ResoniteModLoader" Version="5.0.1" PrivateAssets="all"/>
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CopyToMods)'=='true'">
