@@ -23,12 +23,12 @@ outdir = "./build"
 
 # Copy the compiled DLL to the plugins folder in the mod package
 [[build.copy]]
-source = "./bepis/ReArmature/bin/Release/ReArmature.dll"
+source = "./bepis/bin/Release/ReArmature.dll"
 target = "plugins/ReArmature/"
 
 # Include the PDB file for better debugging support
 [[build.copy]]
-source = "./bepis/ReArmature/bin/Release/ReArmature.pdb"
+source = "./bepis/bin/Release/ReArmature.pdb"
 target = "plugins/ReArmature/"
 
 # Uncomment the following lines to include CHANGELOG file in your mod package. https://wiki.thunderstore.io/mods/updating-a-package#changelog
