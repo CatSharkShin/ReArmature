@@ -76,7 +76,7 @@ jobs:
       - name: check manifest secret
         id: manifest_secret
         run: |
-          if [ -n "$RML_MANIFEST_PAT" ]; then
+          if [ -z "$RML_MANIFEST_PAT" ]; then
             echo "$RML_MANIFEST_PAT is not set"
             exit 1
           fi

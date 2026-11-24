@@ -1,7 +1,7 @@
 # This file is used by the Thunderstore CLI to build and publish your mod to Thunderstore. https://github.com/thunderstore-io/thunderstore-cli
 
 [config]
-schemaVersion = "0.0.1"
+schemaVersion = "1.0.1"
 
 [package]
 namespace = "catshark" # TODO: Change this to the team you're uploading the mod to on Thunderstore
