@@ -56,6 +56,12 @@ jobs:
           mkdir -p dist/BepInEx/plugins/
           cp bepis/bin/Release/ReArmature.dll dist/BepInEx/plugins/
 
+      - name: check
+        run: |
+          pwd
+          ls -la
+          la -la thunderstore.toml
+
       - name: upload to thunderstore
         uses: GreenTF/upload-thunderstore-package@v4.3
         with:
